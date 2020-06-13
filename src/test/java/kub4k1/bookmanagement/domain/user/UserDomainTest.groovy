@@ -1,14 +1,36 @@
 package kub4k1.bookmanagement.domain.user
 
+import kub4k1.bookmanagement.domain.user.dto.NewUserCommand
+import kub4k1.bookmanagement.domain.user.dto.exception.UserException
+import kub4k1.bookmanagement.domain.user.port.outgoing.ActivationTokenCreator
+import kub4k1.bookmanagement.domain.user.port.outgoing.Encoder
+import kub4k1.bookmanagement.domain.user.port.outgoing.TokenSender
+import kub4k1.bookmanagement.infrastructure.user.memory.InMemoryUserRepository
 import spock.lang.Specification
+
+import java.lang.reflect.Field
+import java.time.LocalDateTime
 
 class UserDomainTest extends Specification {
 
-    private InMemoryUserRepository inMemoryUserRepository
+    private InMemoryUserRepository inMemoryUserRepository = new InMemoryUserRepository()
 
-    private UserFacade userFacade = new UserConfigurator().userFacade(inMemoryUserRepository)
+    private Encoder encoder = Mock(Encoder)
+
+    private ActivationTokenCreator activationTokenCreator = Mock(ActivationTokenCreator)
+
+    private TokenSender tokenSender = Mock(TokenSender)
+
+    private UserDomainFacade userFacade = new UserDomainConfigurator().userFacade(inMemoryUserRepository, encoder,
+            activationTokenCreator, tokenSender)
 
     private NewUserCommand newUserCommand = new NewUserCommand("Kub4k1", "Kub4k1@gmail.com", "S3cr3t_P455w0rd")
+
+    def setup() {
+        encoder.encode() >> ""
+        activationTokenCreator.generateToken() >> "abc123"
+        activationTokenCreator.getExpirationDateFromToken("abc123") >> LocalDateTime.now().plusHours(1)
+    }
 
     def "add new user"() {
         when: "add new user"
@@ -95,8 +117,10 @@ class UserDomainTest extends Specification {
     }
 
     String extractTokenByUserId(String userId) {
-        return ""
-
+        Field tokensRepoField = InMemoryUserRepository.class.getDeclaredField("tokensRepo")
+        tokensRepoField.setAccessible(true)
+        Map<String, String> tokensRepo = tokensRepoField.get(inMemoryUserRepository) as Map<String, String>
+        return tokensRepo.get(userId)
     }
 
 }
