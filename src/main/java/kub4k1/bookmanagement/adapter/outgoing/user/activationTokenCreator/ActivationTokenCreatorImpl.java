@@ -1,12 +1,14 @@
 package kub4k1.bookmanagement.adapter.outgoing.user.activationTokenCreator;
 
 import kub4k1.bookmanagement.domain.user.port.outgoing.ActivationTokenCreator;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import static java.util.UUID.randomUUID;
 
+@Service
 class ActivationTokenCreatorImpl implements ActivationTokenCreator {
 
     private final static DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");

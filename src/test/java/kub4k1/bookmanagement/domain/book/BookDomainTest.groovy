@@ -19,7 +19,7 @@ class BookDomainTest extends Specification {
 
     InMemoryUserRepository inMemoryUserRepository = Mock(InMemoryUserRepository)
 
-    BookDomainFacade bookFacade = new BookDomainConfigurator().bookFacade(inMemoryBookRepository, inMemoryUserRepository)
+    BookDomainFacade bookFacade = new BookDomainConfigurator().bookDomainFacade(inMemoryBookRepository, inMemoryUserRepository)
 
     @Shared
     String fakeUserId = "abc123"

@@ -21,7 +21,7 @@ class UserDomainTest extends Specification {
 
     private TokenSender tokenSender = Mock(TokenSender)
 
-    private UserDomainFacade userFacade = new UserDomainConfigurator().userFacade(inMemoryUserRepository, encoder,
+    private UserDomainFacade userFacade = new UserDomainConfigurator().userDomainFacade(inMemoryUserRepository, encoder,
             activationTokenCreator, tokenSender)
 
     private NewUserCommand newUserCommand = new NewUserCommand("Kub4k1", "Kub4k1@gmail.com", "S3cr3t_P455w0rd")
