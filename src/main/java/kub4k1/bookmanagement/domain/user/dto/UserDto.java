@@ -7,7 +7,6 @@ import lombok.Value;
 import java.util.Set;
 
 @Builder
-@Getter
 @Value
 public class UserDto {
 

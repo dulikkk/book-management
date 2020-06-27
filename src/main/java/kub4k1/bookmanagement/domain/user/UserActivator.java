@@ -26,20 +26,17 @@ class UserActivator {
 
     void validateTokenAndActivateUser(String token) {
 
-        // 1. Is token exist in the database
         if (!userRepository.isTokenExists(token)) {
             throw new UserException("This token does not exist. Please contact with our tech support to solve this problem");
         }
 
         UserDto userFromActivationToken = userQueryRepository.getUserFromActivationToken(token);
 
-        // 2. Is date from token is expired
         LocalDateTime tokenExpirationDate = activationTokenCreator.getExpirationDateFromToken(token);
         if (!isGoodDate(tokenExpirationDate)) {
             resendToken(userFromActivationToken);
             throw new UserException("This activation link is outdated. We sent to your email new token");
         } else {
-            // if token is good, then activate user and delete activation token
             activateUser(userFromActivationToken);
         }
     }

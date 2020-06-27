@@ -1,13 +1,15 @@
 package kub4k1.bookmanagement.adapter.security.authentication;
 
-import lombok.RequiredArgsConstructor;
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Value
-@RequiredArgsConstructor
+@NoArgsConstructor
+@Getter
+@AllArgsConstructor
 public class AuthenticationRequest {
 
-    String username;
+    private String username;
 
-    String password;
+    private String password;
 }

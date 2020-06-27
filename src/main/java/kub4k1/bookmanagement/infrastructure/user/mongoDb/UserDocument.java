@@ -11,7 +11,7 @@ import java.util.Set;
 @Getter
 @Builder
 @Document("user")
-class UserDocument {
+public class UserDocument {
 
     @Id
     private String id;

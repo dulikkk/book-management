@@ -17,4 +17,6 @@ public final class ApiEndpoints {
     public static final String SIGN_IN = "/auth/sign-in";
 
     public static final String LOG_OUT = "/auth/log-out";
+
+    public static final String REFRESH_TOKENS = "/auth/refresh-tokens";
 }
