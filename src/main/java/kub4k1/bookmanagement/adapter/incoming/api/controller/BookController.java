@@ -41,6 +41,11 @@ class BookController {
         return bookQueryRepository.findAllActiveBooksByUserId(page, 2, userId);
     }
 
+    @GetMapping(ApiEndpoints.GET_ARCHIVE_BOOKS)
+    List<BookDto> findAllArchiveBooks(@RequestParam(defaultValue = "0") int page, @RequestParam String userId) {
+        return bookQueryRepository.findAllArchiveBooksByUserId(page, 2, userId);
+    }
+
     @PatchMapping(ApiEndpoints.EXTEND_BOOK)
     ResponseEntity<ApiResponse> extendBook(@RequestBody ExtendBookCommand extendBookCommand) {
         bookDomainFacade.extendDateOfExpiration(extendBookCommand);

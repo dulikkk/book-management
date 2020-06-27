@@ -25,9 +25,9 @@ public class MongoDbQueryAndUpdateUtil {
         return new Query(where("activationToken").is(activationToken));
     }
 
-    public Query userIdAndBookStatusIsActivePageableQuery(String userId,
-                                                          Pageable pageable) {
-        Query query = new Query(where("userId").is(userId).and("status").is(BookStatusDto.ACTIVE));
+    public Query userIdAndBookStatusPageableQuery(String userId, BookStatusDto bookStatusDto,
+                                                  Pageable pageable) {
+        Query query = new Query(where("userId").is(userId).and("status").is(bookStatusDto));
         query.with(pageable);
 
         return query;

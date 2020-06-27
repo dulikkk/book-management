@@ -6,6 +6,8 @@ public final class ApiEndpoints {
 
     public static final String GET_ACTIVE_BOOKS = "/book/active";
 
+    public static final String GET_ARCHIVE_BOOKS = "/book//archive";
+
     public static final String EXTEND_BOOK = "/book/extend";
 
     public static final String RETURN_BOOK = "/book/return";

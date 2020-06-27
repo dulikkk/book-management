@@ -9,5 +9,7 @@ public interface BookQueryRepository {
 
     List<BookDto> findAllActiveBooksByUserId(int page, int elementPerPage, String userId);
 
+    List<BookDto> findAllArchiveBooksByUserId(int page, int elementPerPage, String userId);
+
     Optional<BookDto> findById(String id);
 }

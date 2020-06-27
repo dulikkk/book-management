@@ -46,10 +46,20 @@ public class InMemoryBookRepository implements BookRepository, BookQueryReposito
 
     @Override
     public List<BookDto> findAllActiveBooksByUserId(int page, int elementPerPage, String userId) {
+        return filterRepoByUserIdAndBookStatusAndReturnPageWithContent(page, elementPerPage, userId, BookStatusDto.ACTIVE);
+    }
+
+    @Override
+    public List<BookDto> findAllArchiveBooksByUserId(int page, int elementPerPage, String userId) {
+        return filterRepoByUserIdAndBookStatusAndReturnPageWithContent(page, elementPerPage, userId, BookStatusDto.ARCHIVE);
+    }
+
+
+    private List<BookDto> filterRepoByUserIdAndBookStatusAndReturnPageWithContent(int page, int elementPerPage, String userId, BookStatusDto bookStatus) {
         List<BookDto> filteredBooks = booksRepo.values()
                 .stream()
                 .filter(bookDto -> bookDto.getUserId().equals(userId))
-                .filter(bookDto -> bookDto.getBookStatusDto() == BookStatusDto.ACTIVE)
+                .filter(bookDto -> bookDto.getBookStatusDto() == bookStatus)
                 .collect(Collectors.toList());
 
         Page<BookDto> bookDtoPage = new PageImpl<>(filteredBooks, PageRequest.of(page, elementPerPage),
