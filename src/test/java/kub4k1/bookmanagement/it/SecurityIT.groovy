@@ -95,12 +95,22 @@ class SecurityIT extends AbstractIT {
         StringUtils.isNotEmpty(result.getHeaders().getFirst(SecurityConstants.REFRESH_TOKEN_HEADER.getConstant()))
     }
 
-    def "log out"(){
+    def "log out"() {
+        given: "logged user"
+        authenticateUserAndExtractAccessTokenAndRefreshToken()
+        headers.set(SecurityConstants.REFRESH_TOKEN_HEADER.getConstant(), refreshToken)
+
+        when: "trying to log out"
+        def result = testRestTemplate.postForEntity(baseUrl + ApiEndpoints.LOG_OUT, new HttpEntity<Object>(headers),
+                String.class)
+
+        then: "system should return 200"
+        result.getStatusCodeValue() == 200
 
     }
 
     def authenticateUserAndExtractAccessTokenAndRefreshToken() {
-        def result = testRestTemplate.postForEntity(baseUrl + ApiEndpoints.SIGN_IN, goodSignInRequest, String.class)
+        def result = testRestTemplate.postForEntity(baseUrl + ApiEndpoints.SIGN_IN, goodAuthenticationRequest, String.class)
 
         accessToken = result.getHeaders().getFirst(SecurityConstants.ACCESS_TOKEN_HEADER.getConstant())
         refreshToken = result.getHeaders().getFirst(SecurityConstants.REFRESH_TOKEN_HEADER.getConstant())
