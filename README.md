@@ -14,7 +14,7 @@ An example app structured using [Clean Architecture](https://medium.com/slalom-b
 # 🚀 Run the application locally 
 ```
 $ git clone https://github.com/Kub4k1/book-management.git
-$ cd book-managemet
+$ cd book-management
 $ mvn package
 $ java -jar target/book-management-0.0.1-SNAPSHOT.jar
 ```
