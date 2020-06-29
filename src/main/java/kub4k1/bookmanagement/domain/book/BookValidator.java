@@ -33,18 +33,17 @@ class BookValidator {
         checkDateOfExpiration(newBookCommand);
     }
 
-    public BookDto validateExtendBookCommand(ExtendBookCommand extendBookCommand) {
+    public void validateExtendBookCommand(ExtendBookCommand extendBookCommand) {
         checkIsEmptyOrNull(extendBookCommand);
 
-        return bookQueryRepository.findById(extendBookCommand.getId())
+        bookQueryRepository.findById(extendBookCommand.getId())
                 .map(bookDto -> {
                     if (bookDto.getBookStatusDto().equals(BookStatusDto.ARCHIVE)) {
                         throw new BookException("This book has returned yet");
                     }
                     return bookDto;
                 })
-                .map(book -> checkNewDateOfExpiration(book, extendBookCommand.getNewDate()))
-                .orElseThrow(() -> new CannotFindBookException(extendBookCommand.getId()));
+                .map(book -> checkNewDateOfExpiration(book, extendBookCommand.getNewDate()));
     }
 
     private void checkIsEmptyOrNull(NewBookCommand newBookCommand) {

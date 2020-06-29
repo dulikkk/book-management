@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Repository
 public class MongoDbRefreshTokenRepository implements RefreshTokenRepository {
@@ -23,11 +25,6 @@ public class MongoDbRefreshTokenRepository implements RefreshTokenRepository {
     }
 
     @Override
-    public boolean isRefreshTokenExist(String refreshToken) {
-        return mongoTemplate.exists(mongoDbQueryAndUpdateUtil.refreshTokenQuery(refreshToken), UserDocument.class);
-    }
-
-    @Override
     public void deleteRefreshToken(String refreshToken) {
         mongoTemplate.updateFirst(mongoDbQueryAndUpdateUtil.refreshTokenQuery(refreshToken),
                 mongoDbQueryAndUpdateUtil.deleteRefreshTokenUpdate(),
@@ -35,9 +32,10 @@ public class MongoDbRefreshTokenRepository implements RefreshTokenRepository {
     }
 
     @Override
-    @SuppressWarnings("ConstantConditions")
-    public UserDto getUserByRefreshToken(String refreshToken) {
-        return userConverter.toDto(mongoTemplate.findOne(mongoDbQueryAndUpdateUtil.refreshTokenQuery(refreshToken),
-                UserDocument.class));
+    public Optional<UserDto> getUserByRefreshToken(String refreshToken) {
+        return Optional.ofNullable(mongoTemplate.findOne(mongoDbQueryAndUpdateUtil.refreshTokenQuery(refreshToken),
+                UserDocument.class))
+                .map(userConverter::toDto);
     }
 }
+

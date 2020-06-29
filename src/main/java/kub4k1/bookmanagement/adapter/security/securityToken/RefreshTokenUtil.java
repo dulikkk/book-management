@@ -24,10 +24,8 @@ public class RefreshTokenUtil {
     }
 
     public SecurityTokenPair refreshAccessAndRefreshToken(String refreshToken) {
-        if (!refreshTokenRepository.isRefreshTokenExist(refreshToken)) {
-            throw new SecurityException("This refresh token does not exists");
-        }
-        UserDto userFromRefreshToken = refreshTokenRepository.getUserByRefreshToken(refreshToken);
+        UserDto userFromRefreshToken = refreshTokenRepository.getUserByRefreshToken(refreshToken)
+                .orElseThrow(() -> new SecurityException("This refresh token does not exists"));
 
         deleteRefreshToken(refreshToken);
 

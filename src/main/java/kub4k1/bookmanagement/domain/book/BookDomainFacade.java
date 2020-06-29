@@ -15,7 +15,7 @@ public class BookDomainFacade {
     public BookDomainFacade(BookRepository bookRepository, BookQueryRepository bookQueryRepository, UserQueryRepository userQueryRepository) {
         BookValidator bookValidator = new BookValidator(userQueryRepository, bookQueryRepository);
         this.bookCreator = new BookCreator(bookRepository, bookValidator);
-        this.bookExtender = new BookExtender(bookRepository, bookValidator);
+        this.bookExtender = new BookExtender(bookRepository, bookQueryRepository, bookValidator);
         this.bookReturner = new BookReturner(bookRepository, bookQueryRepository);
     }
 
